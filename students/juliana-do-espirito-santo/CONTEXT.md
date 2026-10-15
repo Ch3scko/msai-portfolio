@@ -67,8 +67,13 @@
 - My Gmail address is on my public CV — OK to keep?
 
 ## My current pull request
-- #76 "Round two — Juliana do Espírito Santo" (open): https://github.com/rodolfocapdevilla-au/msai-portfolio/pull/76
+- #76 "Round two — Juliana do Espírito Santo" — MERGED on 2026-10-01: https://github.com/rodolfocapdevilla-au/msai-portfolio/pull/76
+- No pull request open right now. The next one comes from the same branch.
 - Rule: only one pull request open at a time. While it is open, keep pushing to it. A merged one never reopens — after my teacher merges, open the next one from the SAME branch.
 
+## Thursday 2026-10-15
+- Pulled the latest class project into my fork and my laptop (64 new saves, now at 7a6c681)
+- Merged the latest main into my branch (no new branch, no conflicts)
+
 ## Next step
-- Wait for my teacher to merge pull request #76
+- TO DO: decide my next change, then open a new pull request from the same branch

@@ -23,6 +23,7 @@ Only files inside my own folder: `students/juliana-do-espirito-santo/`. Nothing 
 - **Delete my writing silently.** If you remove or replace any of my words, tell me what was there before and what it is now.
 - **Push to main.**
 - **Edit `RUBRIC.md`.**
+- **Never rewrite a sentence I wrote** unless FEEDBACK.md quotes a problem with it.
 
 ## The loop
 

@@ -35,4 +35,4 @@ Only files inside my own folder: `students/juliana-do-espirito-santo/`. Nothing 
 
 ## When to stop
 
-Stop when the page is good.
+Stop when every item in RUBRIC.md passes. Never run more than five passes. If a pass does not turn any failing item into a pass, stop and say so. If you stop without meeting the bar, say which items still fail.

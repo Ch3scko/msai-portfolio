@@ -25,11 +25,11 @@
 - Block "Current Projects" — 3 cards, three sentences each (what it is, what I did, what came out):
   1. "The Human-Centered AI Marketing System" — picture project-marketing-system.jpg (workbook cover from my flyer, 94 KB, no price). The framework PDF stays private.
   2. "Local AI Assistant for an Orthodontic Front Office" — picture project-local-assistant.svg. From "Final project 1.pdf" (a proposal; the assistant is not built yet).
-  3. "Predicting Which Orthodontic Patients Start Treatment" — picture project-patient-conversion.svg (bar chart from my report). From "Project 2.pdf" (data preparation and charts; the model is the next phase).
+  3. "What Drives Treatment Starts at an Orthodontic Practice (exploratory analysis)" — picture project-patient-conversion.svg (bar chart from my report). From "Project 2.pdf" (data preparation and charts on a simulated dataset I created; the model is the next phase). Says the link was measured by correlation (0.74 and 0.59).
 - Block "Education & Experience" (from my CV, with dates):
   - Education: Master of Science in Artificial Intelligence, Atlantis University · 2025–2027 / Digital Marketing Certification, DMI & ESPM · 2024 / Bachelor's Degree in Publicity and Advertising, Pontifical Catholic University of Goiás · 2009
   - Experience: AI Marketing Specialist & Customer Service Assistant, Barbosa Orthodontics · May 2026–Aug 2026 / Brand Manager, E-commerce & Digital Marketing, Ju Santo Store · 2009–2023 / Volunteer, Cancer Hospital of Goiás · 2017–2020
-- Other files in my folder: CONTEXT.md (this file), REPORT.md (one-page summary)
+- Other files in my folder: CONTEXT.md (this file), REPORT.md (one-page summary), FEEDBACK.md (raw feedback from my page, exactly as written), AGENT.md (instructions for the agent that improves my page), RUBRIC.md (16 pass/fail checks), GOAL.md (my reader and end state)
 
 ## Tonight (Wednesday 2026-09-30)
 - Found my first pull request #63 was MERGED by my teacher
@@ -63,12 +63,15 @@
 ## Questions still open
 - Were my two orthodontic projects part of my internship, or course projects only? (Cards say "course" / "an orthodontic practice")
 - Did I run the test of Llama 3.2 3B on my MacBook Air (about 45 tokens per second)? If yes, it can go on card 2.
-- Is the 500-patient dataset in project 3 real or sample data?
+- ANSWERED 2026-10-19: the 500-lead dataset in project 3 is a simulated dataset I created for the course (now said on the card)
 - My Gmail address is on my public CV — OK to keep?
 
 ## My current pull request
 - #76 "Round two — Juliana do Espírito Santo" — MERGED on 2026-10-01: https://github.com/rodolfocapdevilla-au/msai-portfolio/pull/76
-- #88 "Update CONTEXT.md — Juliana do Espírito Santo" (open, waiting for my teacher): https://github.com/rodolfocapdevilla-au/msai-portfolio/pull/88
+- #88 "Update CONTEXT.md — Juliana do Espírito Santo" — MERGED on 2026-10-19: https://github.com/rodolfocapdevilla-au/msai-portfolio/pull/88
+- #93 "Add FEEDBACK.md — Juliana do Espírito Santo" (FEEDBACK.md, AGENT.md, RUBRIC.md, card 3 changes) — MERGED: https://github.com/rodolfocapdevilla-au/msai-portfolio/pull/93
+- #96 "Add GOAL.md — Juliana do Espírito Santo" (open, waiting for my teacher): https://github.com/rodolfocapdevilla-au/msai-portfolio/pull/96
+- In my own fork: #1 "AGENT.md run: rubric pass, 2026-10-19" (open), from branch agent/rubric-pass-2026-10-19 into my branch. It adds "(private)" after the 31-page workbook on card 1: https://github.com/jujusanto/msai-portfolio/pull/1
 - Rule: only one pull request open at a time. While it is open, keep pushing to it. A merged one never reopens — after my teacher merges, open the next one from the SAME branch.
 
 ## Thursday 2026-10-15
@@ -77,5 +80,17 @@
 - Opened pull request #88 with this CONTEXT.md update (same branch)
 - Updated REPORT.md (Round two merged, #88, all saves) and sent it to #88
 
+## Monday 2026-10-19
+- Saved the raw feedback from my page in FEEDBACK.md, exactly as written
+- Wrote AGENT.md: goal, what it may read and change (only my folder), what it may never do, and the loop
+- Ran AGENT.md with FEEDBACK.md as the goal. Card 3 changes: new title "(exploratory analysis)", "An exploratory analysis of…", "simulated dataset … for the course", and "strongest correlation … (0.74 and 0.59)"
+- Replaced the stopping rule ("Stop when the page is good." → stop when every item in RUBRIC.md passes, at most five passes) and added: never rewrite my sentences unless FEEDBACK.md quotes a problem
+- Wrote RUBRIC.md (16 pass/fail checks)
+- Ran AGENT.md against RUBRIC.md: 15 of 16 pass. Marked the workbook "(private)" on card 1 (fork pull request #1). Still failing: item 12, because card 2 mentions the proposal without a link or "private"
+- Wrote GOAL.md: a marketing director at an orthodontic practice group whose leads don't start treatment; they message me on LinkedIn
+- #88 and #93 were merged; opened #96 for GOAL.md (same branch, updated from the class project first)
+
 ## Next step
-- Wait for my teacher to merge #88. While it is open, keep pushing to it.
+- Decide about card 2's proposal (private? public link? or accept item 12 as passed) so RUBRIC.md item 12 can pass
+- Merge my fork's pull request #1 into my branch if I want the "(private)" change
+- Wait for my teacher to merge #96. While it is open, keep pushing to it.

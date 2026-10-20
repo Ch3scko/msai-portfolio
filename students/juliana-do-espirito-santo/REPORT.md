@@ -6,7 +6,7 @@
 | **GitHub username** | [jujusanto](https://github.com/jujusanto) |
 | **Branch** | `student/juliana-do-espirito-santo` |
 | **Folder** | `students/juliana-do-espirito-santo/` |
-| **Pull requests** | [#63 — Add Juliana do Espirito Santo page](https://github.com/rodolfocapdevilla-au/msai-portfolio/pull/63) (merged) · [#76 — Round two — Juliana do Espírito Santo](https://github.com/rodolfocapdevilla-au/msai-portfolio/pull/76) (merged 2026-10-01) · [#88 — Update CONTEXT.md — Juliana do Espírito Santo](https://github.com/rodolfocapdevilla-au/msai-portfolio/pull/88) (open, waiting for review) |
+| **Pull requests** | [#63 — Add Juliana do Espirito Santo page](https://github.com/rodolfocapdevilla-au/msai-portfolio/pull/63) (merged) · [#76 — Round two — Juliana do Espírito Santo](https://github.com/rodolfocapdevilla-au/msai-portfolio/pull/76) (merged 2026-10-01) · [#88 — Update CONTEXT.md](https://github.com/rodolfocapdevilla-au/msai-portfolio/pull/88) (merged) · [#93 — Add FEEDBACK.md](https://github.com/rodolfocapdevilla-au/msai-portfolio/pull/93) (merged) · [#96 — Add GOAL.md](https://github.com/rodolfocapdevilla-au/msai-portfolio/pull/96) (open, waiting for review) · in my fork: [#1 — AGENT.md run](https://github.com/jujusanto/msai-portfolio/pull/1) (open) |
 
 ## My one line
 > After more than ten years running the brand and marketing of an online store, I now study Artificial Intelligence at Atlantis University. My projects look at how AI can answer customers’ routine questions and show which people go on to become customers.
@@ -35,7 +35,12 @@
 16. Added a public version of my CV (no phone number or address) and matched Experience to it.
 17. Updated the pull request #76 description to cover all my changes, and renamed it "Round two" (merged 2026-10-01).
 18. Pulled the latest class project into my fork and my laptop, and merged main into my branch (no new branch, no conflicts).
-19. Opened pull request #88 from the same branch with my updated CONTEXT.md and this REPORT.md.
+19. Opened pull request #88 from the same branch with my updated CONTEXT.md and this REPORT.md (merged).
+20. Saved the raw feedback from my page in FEEDBACK.md, exactly as written, and opened pull request #93.
+21. Wrote AGENT.md and ran it with the feedback as its goal: card 3 is now labelled an exploratory analysis on a simulated dataset, with the correlation numbers.
+22. Gave AGENT.md a checkable stopping rule (RUBRIC.md, at most five passes) and a rule against rewriting my sentences without a quoted reason.
+23. Wrote RUBRIC.md (16 pass/fail checks) and ran AGENT.md against it: 15 of 16 pass. Its one change is in pull request #1 in my fork.
+24. Wrote GOAL.md (my reader: a marketing director at an orthodontic practice group) and opened pull request #96.
 
 ## My commits
 | Commit | Date | Message |
@@ -52,7 +57,16 @@
 | `988713f` | 2026-09-30 | Update REPORT.md with Round two |
 | `80bf0b3` | 2026-10-15 | Update CONTEXT.md after Round two |
 | `e3a29f8` | 2026-10-15 | Add pull request #88 link to CONTEXT.md |
-| (this save) | 2026-10-15 | Update REPORT.md for pull request #88 |
+| `118b67e` | 2026-10-15 | Update REPORT.md for pull request #88 |
+| `e7dfa71` | 2026-10-19 | Add FEEDBACK.md with the raw feedback from my page |
+| `e741f4c` | 2026-10-19 | Add AGENT.md for the agent that improves my page |
+| `0b00908` | 2026-10-19 | Rename card 3 as exploratory analysis and say how the link was measured |
+| `08c5e5d` | 2026-10-19 | Label card 3 as a simulated dataset and an exploratory analysis |
+| `de58d14` | 2026-10-19 | Replace the AGENT.md stopping rule with a checkable one |
+| `7f6973f` | 2026-10-19 | Add AGENT.md rule: never rewrite my sentences unless FEEDBACK.md quotes a problem |
+| `9a6f9df` | 2026-10-19 | Add RUBRIC.md with pass/fail checks for my page |
+| `902939c` | 2026-10-19 | Add GOAL.md: the reader and end state for my page |
+| `c8856c8` | 2026-10-19 | Mark the 31-page workbook as private (RUBRIC.md item 12), on branch agent/rubric-pass-2026-10-19 |
 
 ## Still to do
-Wait for my teacher to merge pull request #88. While it is open, keep pushing to it.
+Decide about card 2's proposal so RUBRIC.md item 12 passes; merge my fork's pull request #1 if I want the "(private)" change; wait for my teacher to merge #96.

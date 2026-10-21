@@ -1,0 +1,143 @@
+<h2 style="font-size:17px;font-weight:600;line-height:1.4;color:var(--color-text-primary);margin:0 0 14px;">Absorption and reflectance of several materials across the electromagnetic spectrum on a logarithmic frequency axis, with transmissive/absorptive/reflective band shading.</h2>
+<div style="padding: 0.25rem 0;">
+  <div id="btns" style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px;"></div>
+  <div style="display:flex;flex-wrap:wrap;gap:18px;font-size:14px;color:var(--color-text-secondary);margin-bottom:14px;">
+    <span style="display:flex;align-items:center;gap:6px;"><span style="width:20px;height:3px;background:#525252;display:inline-block;"></span>Absorption (opacity)</span>
+    <span style="display:flex;align-items:center;gap:6px;"><span style="width:20px;height:0;border-top:3px dashed #A32D2D;display:inline-block;"></span>Reflectance</span>
+    <span style="display:flex;align-items:center;gap:6px;"><span style="width:20px;height:3px;background:#E8772E;display:inline-block;"></span>Body thermal emission, 310 K (right axis)</span>
+    <span style="display:flex;align-items:center;gap:6px;"><span style="width:13px;height:13px;background:rgba(120,150,220,.28);display:inline-block;border-radius:2px;"></span>T</span>
+    <span style="display:flex;align-items:center;gap:6px;"><span style="width:13px;height:13px;background:rgba(120,120,120,.32);display:inline-block;border-radius:2px;"></span>A</span>
+    <span style="display:flex;align-items:center;gap:6px;"><span style="width:13px;height:13px;background:rgba(220,110,110,.3);display:inline-block;border-radius:2px;"></span>R</span>
+  </div>
+  <div id="plots"></div>
+</div>
+<script>
+(function(){
+  const M = {
+    skin:{ name:'Skin',
+      r:[[6,.05],[9,.06],[11,.06],[12,.05],[13,.04],[14,.15],[14.34,.4],[14.55,.45],[14.66,.4],[14.75,.3],[14.85,.18],[15,.1],[15.3,.06],[16,.03],[18,.02],[21,.01]],
+      a:[[6,.2],[9,.35],[10.3,.7],[11.5,.85],[12,.9],[13,.95],[13.7,.92],[14,.7],[14.34,.35],[14.5,.28],[14.66,.3],[14.75,.45],[14.85,.7],[15,.88],[15.3,.92],[15.6,.9],[16,.7],[16.5,.5],[17,.4],[17.5,.3],[18,.22],[19,.12],[21,.05]],
+      note:'Skin: melanin and blood absorb strongly in the UV and blue, while red and near-IR penetrate (the tissue optical window). Water makes it absorptive through microwave and IR — right where the body\'s 310 K emission peaks — so skin is a near-perfect infrared emitter. Largely transmissive to X-rays.' },
+    bone:{ name:'Bone',
+      r:[[6,.06],[9,.07],[11,.07],[12,.06],[13,.08],[14,.25],[14.34,.45],[14.55,.5],[14.66,.48],[14.85,.4],[15,.25],[15.3,.12],[16,.04],[18,.03],[21,.01]],
+      a:[[6,.15],[9,.3],[10.3,.6],[11.5,.78],[12,.85],[13,.92],[13.7,.88],[14,.6],[14.34,.35],[14.55,.3],[14.66,.32],[14.85,.45],[15,.65],[15.3,.85],[15.6,.85],[16,.78],[16.5,.72],[17,.68],[17.5,.7],[17.99,.85],[18.2,.78],[19,.5],[19.5,.35],[20,.22],[21,.1]],
+      note:'Bone: its mineral (calcium/phosphorus, calcium K-edge near 4 keV) absorbs X-rays far more strongly and over a wider band than soft tissue — the contrast a radiograph captures. Whitish and scattering in the visible, absorptive in the IR.' },
+    muscle:{ name:'Muscle',
+      r:[[6,.04],[9,.05],[11,.05],[12,.04],[13,.04],[14,.08],[14.34,.18],[14.55,.2],[14.66,.18],[14.85,.1],[15,.06],[16,.03],[18,.02],[21,.01]],
+      a:[[6,.18],[9,.4],[10.3,.82],[11.5,.88],[12,.92],[13,.97],[13.7,.95],[14,.78],[14.34,.4],[14.5,.32],[14.66,.35],[14.75,.55],[14.85,.78],[15,.9],[15.3,.92],[15.6,.9],[16,.68],[16.5,.48],[17,.38],[17.5,.3],[18,.2],[19,.11],[21,.05]],
+      note:'Muscle: ~75% water plus myoglobin, so it behaves much like water — strongly absorptive across microwave and IR, with a near-IR window. As soft tissue it is largely transparent to X-rays.' },
+    organs:{ name:'Organs',
+      r:[[6,.04],[9,.05],[11,.05],[12,.04],[14,.06],[14.34,.14],[14.55,.16],[14.66,.13],[14.85,.07],[15,.05],[16,.03],[18,.02],[21,.01]],
+      a:[[6,.2],[9,.42],[10.3,.84],[11.5,.9],[12,.93],[13,.97],[13.7,.95],[14,.8],[14.34,.45],[14.5,.4],[14.6,.55],[14.7,.75],[14.86,.92],[15,.9],[15.3,.92],[15.6,.9],[16,.66],[16.5,.46],[17,.36],[17.5,.28],[18,.19],[19,.1],[21,.05]],
+      note:'Organs: blood-rich soft tissue — hemoglobin drives strong visible absorption (Soret band near 415 nm) and narrows the near-IR window. High water content makes them absorptive through microwave and IR; like all soft tissue they pass X-rays.' },
+    cotton:{ name:'Cotton',
+      r:[[6,.05],[9,.06],[11,.06],[12,.06],[13,.08],[14,.25],[14.4,.45],[14.7,.5],[14.85,.48],[15,.3],[15.3,.15],[16,.04],[18,.02],[21,.01]],
+      a:[[6,.2],[9,.28],[10.3,.45],[11.5,.7],[12,.8],[13,.92],[13.5,.95],[14,.85],[14.3,.5],[14.6,.2],[14.75,.15],[14.9,.25],[15,.45],[15.3,.7],[15.6,.78],[16,.7],[16.5,.55],[17,.4],[17.5,.3],[18,.2],[19,.1],[21,.05]],
+      note:'Cotton (typical T-shirt fabric): a cellulose fiber and good dielectric — transmissive across radio and microwave (though it holds moisture, adding some loss), strongly absorptive in the IR (cellulose O–H/C–H/C–O bands) and UV, and low-absorption in the visible (white cotton looks bright because it scatters light, not absorbs it). Light elements, so transparent to X-rays.' },
+    denim:{ name:'Denim',
+      r:[[6,.05],[9,.06],[11,.06],[12,.06],[13,.07],[14,.12],[14.4,.2],[14.6,.18],[14.7,.16],[14.82,.3],[14.9,.32],[15,.2],[15.3,.1],[16,.03],[18,.02],[21,.01]],
+      a:[[6,.22],[9,.3],[10.3,.48],[11.5,.72],[12,.82],[13,.93],[13.5,.95],[14,.88],[14.3,.6],[14.55,.65],[14.66,.7],[14.75,.62],[14.85,.4],[14.95,.45],[15.1,.6],[15.3,.75],[15.6,.8],[16,.72],[16.5,.55],[17,.4],[17.5,.3],[18,.2],[19,.1],[21,.05]],
+      note:'Denim (typical jeans fabric): the same cellulose as cotton but thicker and indigo-dyed — the dye <b>absorbs the red end of the visible and reflects blue</b>, which is why jeans look blue. Otherwise it follows the cotton pattern: transmissive in radio/microwave, absorptive in IR and UV, transparent to X-rays.' },
+    polyester:{ name:'Polyester',
+      r:[[6,.04],[9,.04],[11,.05],[12,.06],[13,.1],[13.71,.18],[14,.08],[14.4,.12],[14.7,.13],[14.85,.1],[15,.07],[15.3,.05],[16,.03],[18,.02],[21,.01]],
+      a:[[6,.08],[9,.08],[11,.12],[12,.4],[13,.78],[13.5,.88],[13.71,.92],[13.9,.85],[14.1,.55],[14.3,.3],[14.6,.15],[14.75,.12],[14.9,.3],[15.1,.7],[15.3,.88],[15.6,.92],[16,.85],[16.5,.65],[17,.45],[18,.25],[19,.12],[21,.05]],
+      note:'Polyester / PET (typical jacket fabric): a synthetic, hydrophobic polymer, so it has even lower radio/microwave loss than cotton. Strong infrared bands (ester C=O and aromatic groups) and a <b>strong UV absorption edge</b> — PET is a good UV blocker — with low visible absorption in the base polymer (its color comes from dyes). Light elements mean no X-ray shielding.' },
+    stainless:{ name:'Stainless steel',
+      r:[[6,.96],[12,.92],[14,.72],[14.7,.62],[15,.5],[15.3,.38],[15.6,.27],[16,.13],[17,.07],[18,.04],[19,.02],[21,.01]],
+      a:[[6,.03],[12,.05],[14,.16],[14.7,.32],[15,.5],[15.3,.6],[15.6,.62],[16,.56],[16.5,.54],[17,.58],[17.5,.62],[18,.55],[18.05,.5],[18.16,.78],[18.23,.83],[18.3,.85],[18.45,.78],[19,.55],[19.5,.36],[20,.2],[21,.1]],
+      note:'Stainless steel: an iron–chromium–nickel alloy, brighter and more reflective than plain steel. In X-rays it shows a cluster of absorption edges from chromium (~6 keV), iron (~7.1 keV) and nickel (~8.3 keV); too light to shield gamma rays.' },
+    carbon_steel:{ name:'Carbon steel',
+      r:[[6,.94],[12,.89],[14,.65],[14.7,.58],[15,.43],[15.3,.33],[15.6,.24],[16,.11],[17,.06],[18,.04],[19,.02],[21,.01]],
+      a:[[6,.04],[12,.06],[14,.18],[14.7,.35],[15,.52],[15.3,.6],[15.6,.62],[16,.56],[16.5,.54],[17,.58],[17.5,.62],[18,.55],[18.1,.5],[18.23,.85],[18.5,.8],[19,.56],[19.5,.36],[20,.2],[21,.1]],
+      note:'Carbon steel: essentially iron with a little carbon — reflective at low frequencies (a duller mirror that rusts), with the iron K-edge at ~7 keV and no useful gamma shielding.' },
+    iron:{ name:'Iron',
+      r:[[6,.95],[12,.9],[14,.68],[14.7,.58],[15,.45],[15.3,.35],[15.6,.25],[16,.12],[17,.06],[18,.04],[19,.02],[21,.01]],
+      a:[[6,.03],[12,.05],[14,.15],[14.7,.32],[15,.5],[15.3,.6],[15.6,.62],[16,.56],[16.5,.54],[17,.58],[17.5,.62],[18,.55],[18.1,.5],[18.23,.85],[18.5,.8],[19,.56],[19.5,.36],[20,.2],[21,.1]],
+      note:'Iron: a duller mirror than silver (interband losses in the visible), with the astrophysically famous iron K-edge at ~7 keV; light enough to let hard gamma rays through.' },
+    lead:{ name:'Lead',
+      r:[[6,.9],[12,.85],[14,.74],[14.7,.66],[15,.5],[15.3,.3],[15.6,.16],[16,.08],[17,.05],[18,.03],[19,.02],[21,.01]],
+      a:[[6,.05],[12,.06],[14,.1],[14.7,.15],[15,.38],[15.3,.55],[15.6,.6],[16,.55],[16.5,.65],[17,.82],[18,.95],[18.8,.97],[19.3,.93],[20,.72],[20.5,.5],[21,.34]],
+      note:'Lead: a heavy nucleus (Z=82) makes it the standard X-ray and gamma shield — where soft tissue and glass turn transparent, lead turns strongly absorptive. At lower frequencies it is just a dull-gray reflective metal.' },
+    gold:{ name:'Gold',
+      r:[[6,.98],[12,.985],[14,.98],[14.55,.96],[14.7,.9],[14.78,.68],[14.85,.43],[15,.3],[15.3,.2],[15.6,.12],[16,.08],[17,.05],[18,.03],[19,.02],[21,.01]],
+      a:[[6,.02],[12,.02],[14,.03],[14.55,.04],[14.7,.1],[14.78,.38],[14.85,.62],[15,.75],[15.3,.7],[15.6,.5],[16,.35],[17,.2],[18,.1],[19,.06],[21,.03]],
+      note:'Gold: reflective through IR and the red–yellow visible, but interband transitions make reflectance collapse in the blue-green — the dip that makes gold look yellow.' },
+    silver:{ name:'Silver',
+      r:[[6,.99],[9,.99],[12,.98],[14,.97],[14.7,.96],[15,.85],[15.34,.4],[15.6,.1],[16,.05],[17,.03],[18,.02],[19,.01],[21,.01]],
+      a:[[6,.02],[12,.03],[14,.04],[14.7,.08],[15,.2],[15.34,.5],[15.6,.3],[16,.15],[17,.1],[18,.08],[19,.05],[21,.02]],
+      note:'Silver: a flat, broadband mirror — near-unity reflectance from radio through the whole visible (color-neutral white), dropping at its UV plasma frequency.' },
+    ito:{ name:'ITO (heat mirror)',
+      r:[[6,.85],[10,.85],[12,.8],[13,.75],[13.8,.7],[14.1,.55],[14.3,.35],[14.5,.16],[14.7,.1],[15,.08],[15.5,.09],[16,.13],[16.5,.1],[17,.05],[18,.03],[21,.01]],
+      a:[[6,.03],[12,.04],[13,.05],[14,.06],[14.3,.07],[14.5,.06],[14.7,.04],[15,.3],[15.3,.7],[15.6,.85],[16,.8],[16.5,.6],[17,.3],[18,.15],[21,.03]],
+      note:'ITO: free carriers push the plasma frequency into the near-IR, so it reflects heat/IR yet stays transparent in the visible — the basis of low-E window coatings. Note how the body emission lands on its reflective band.' },
+    glass:{ name:'Glass',
+      r:[[6,.02],[9,.02],[11,.03],[12,.1],[13,.5],[13.5,.78],[13.8,.3],[14,.04],[14.6,.04],[14.75,.04],[15.27,.05],[16.2,.05],[18,.03],[21,.01]],
+      a:[[6,.04],[9,.05],[11,.1],[12,.4],[13,.85],[13.5,.9],[13.8,.6],[14,.15],[14.28,.05],[14.75,.02],[14.95,.1],[15.27,.5],[15.6,.9],[16.2,.92],[17,.7],[18,.4],[21,.06]],
+      note:'Glass: barely reflective across radio and the visible (the clear window), apart from one sharp reststrahlen band in the mid-IR. Transmissive to X-rays.' },
+    water:{ name:'Water',
+      r:[[6,.02],[10.3,.05],[12,.03],[13,.05],[14,.04],[14.75,.02],[15.5,.03],[17.2,.02],[21,.01]],
+      a:[[6,.05],[9,.3],[10.3,.88],[12,.85],[13,.97],[13.7,.95],[14,.9],[14.3,.5],[14.75,.015],[15.1,.7],[15.5,.92],[16,.85],[17.2,.45],[18,.2],[21,.04]],
+      note:'Water: a poor reflector everywhere. A transparency window in the visible flanked by absorptive microwave, IR and UV bands, and largely transparent to X-rays.' },
+    nylon:{ name:'Glass-filled nylon',
+      r:[[6,.03],[9,.03],[11,.04],[12,.06],[13,.12],[13.4,.18],[13.8,.08],[14,.04],[14.7,.04],[15.27,.05],[16.2,.04],[18,.02],[21,.01]],
+      a:[[6,.12],[9,.12],[11,.18],[12,.45],[13,.8],[13.4,.9],[13.7,.92],[13.95,.88],[14.1,.6],[14.3,.3],[14.6,.15],[14.75,.12],[15,.4],[15.3,.8],[15.6,.9],[16,.88],[16.5,.7],[17,.45],[18,.25],[19,.12],[21,.05]],
+      note:'Glass-fiber-filled nylon: an insulating engineering plastic — transmissive across radio and microwave, absorptive in IR and UV, low-absorption in the visible (opacity comes from fiber scattering). Light elements mean no X-ray shielding.' }
+  };
+  const bands=[[6,9,'Radio'],[9,11.5,'Micro'],[11.5,14.6,'Infrared'],[14.6,14.9,''],[14.9,16,'UV'],[16,19.5,'X-ray'],[19.5,21,'γ']];
+  const ABS='#525252',Tbody=310;
+  let selected=['skin'],thermalOn=true;
+  function lerp(d,x){if(x<=d[0][0])return d[0][1];for(let i=0;i<d.length-1;i++){const a=d[i],b=d[i+1];if(x>=a[0]&&x<=b[0]){const t=(x-a[0])/(b[0]-a[0]),s=t*t*(3-2*t);return a[1]+(b[1]-a[1])*s;}}return d[d.length-1][1];}
+  function planck(nu,T){const h=6.626e-34,c=3e8,k=1.381e-23;return (2*h*nu*nu*nu/(c*c))/(Math.exp(h*nu/(k*T))-1);}
+  function sup(n){return n.toString().split('').map(c=>c==='-'?'⁻':'⁰¹²³⁴⁵⁶⁷⁸⁹'[+c]).join('');}
+  let Bmax=0;for(let i=0;i<=600;i++){const lf=6+15*i/600,Bv=planck(Math.pow(10,lf),Tbody);if(Bv>Bmax)Bmax=Bv;}
+  const axR=Bmax*1.1;
+  function drawPlot(cv,key){
+    const r=cv.parentElement.getBoundingClientRect(),dpr=devicePixelRatio||1;
+    const W=r.width,H=r.height;cv.width=W*dpr;cv.height=H*dpr;cv.style.width=W+'px';cv.style.height=H+'px';
+    const ctx=cv.getContext('2d');ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,W,H);
+    const txt=getComputedStyle(document.documentElement).getPropertyValue('--color-text-secondary')||'#666';
+    const m=M[key],N=360,x0=6,x1=21,Rm=thermalOn?72:18,L=64,T=32,B=58,pw=W-L-Rm,ph=H-T-B;
+    const X=v=>L+(v-x0)/(x1-x0)*pw,Y=v=>T+(1-v)*ph;
+    for(let i=0;i<N;i++){const lf=x0+(x1-x0)*i/N,rf=lerp(m.r,lf),a=lerp(m.a,lf);let c;if(rf>.55)c='rgba(220,110,110,.3)';else if(a>.5)c='rgba(120,120,120,.32)';else c='rgba(120,150,220,.22)';ctx.fillStyle=c;ctx.fillRect(X(lf),T,pw/N+1,ph);}
+    const g=ctx.createLinearGradient(X(14.6),0,X(14.9),0);['#7d2fd6','#2f6fd6','#1d9e75','#d8c020','#d85a30','#c0203a'].forEach((c,i)=>g.addColorStop(i/5,c));ctx.fillStyle=g;ctx.fillRect(X(14.6),T,X(14.9)-X(14.6),ph);
+    ctx.font='14px sans-serif';ctx.textAlign='center';
+    bands.forEach(b=>{ctx.strokeStyle='rgba(128,128,128,.35)';ctx.beginPath();ctx.moveTo(X(b[1]),T);ctx.lineTo(X(b[1]),T+ph);ctx.stroke();if(b[2]){ctx.fillStyle=txt;ctx.fillText(b[2],X((b[0]+b[1])/2),T-11);}});
+    ctx.fillStyle=txt;ctx.font='12px sans-serif';ctx.fillText('Vis',X(14.75),T-11);
+    ctx.strokeStyle='rgba(128,128,128,.5)';ctx.strokeRect(L,T,pw,ph);
+    ctx.beginPath();for(let i=0;i<=N;i++){const lf=x0+(x1-x0)*i/N,a=lerp(m.a,lf);i?ctx.lineTo(X(lf),Y(a)):ctx.moveTo(X(lf),Y(a));}ctx.lineTo(X(x1),Y(0));ctx.lineTo(X(x0),Y(0));ctx.closePath();ctx.fillStyle=ABS+'26';ctx.fill();
+    ctx.beginPath();for(let i=0;i<=N;i++){const lf=x0+(x1-x0)*i/N,a=lerp(m.a,lf);i?ctx.lineTo(X(lf),Y(a)):ctx.moveTo(X(lf),Y(a));}ctx.strokeStyle=ABS;ctx.lineWidth=2.4;ctx.stroke();
+    ctx.beginPath();for(let i=0;i<=N;i++){const lf=x0+(x1-x0)*i/N,rf=lerp(m.r,lf);i?ctx.lineTo(X(lf),Y(rf)):ctx.moveTo(X(lf),Y(rf));}ctx.strokeStyle='#A32D2D';ctx.lineWidth=2.6;ctx.setLineDash([6,4]);ctx.stroke();ctx.setLineDash([]);
+    if(thermalOn){
+      ctx.beginPath();for(let i=0;i<=600;i++){const lf=x0+(x1-x0)*i/600,Bv=planck(Math.pow(10,lf),Tbody);i?ctx.lineTo(X(lf),Y(Bv/axR)):ctx.moveTo(X(lf),Y(Bv/axR));}ctx.lineTo(X(x1),Y(0));ctx.lineTo(X(x0),Y(0));ctx.closePath();ctx.fillStyle='#E8772E1f';ctx.fill();
+      ctx.beginPath();for(let i=0;i<=600;i++){const lf=x0+(x1-x0)*i/600,Bv=planck(Math.pow(10,lf),Tbody);i?ctx.lineTo(X(lf),Y(Bv/axR)):ctx.moveTo(X(lf),Y(Bv/axR));}ctx.strokeStyle='#E8772E';ctx.lineWidth=2.6;ctx.stroke();
+      ctx.strokeStyle='rgba(232,119,46,.55)';ctx.fillStyle='#B95E18';ctx.font='12px sans-serif';ctx.textAlign='left';
+      [0,.25,.5,.75,1].forEach(f=>{const y=Y(f);ctx.beginPath();ctx.moveTo(L+pw,y);ctx.lineTo(L+pw+5,y);ctx.stroke();ctx.fillText((f*axR*1e12).toFixed(1),L+pw+8,y+4);});
+      ctx.save();ctx.translate(L+pw+64,T+ph/2);ctx.rotate(Math.PI/2);ctx.textAlign='center';ctx.font='12px sans-serif';ctx.fillText('B'+'\u1d65'+' (10'+sup(-12)+' W m'+sup(-2)+' sr'+sup(-1)+' Hz'+sup(-1)+')',0,0);ctx.restore();
+    }
+    ctx.fillStyle=txt;ctx.font='13px sans-serif';ctx.textAlign='right';[0,.5,1].forEach(v=>ctx.fillText(v.toFixed(1),L-8,Y(v)+4));
+    ctx.save();ctx.translate(16,T+ph/2);ctx.rotate(-Math.PI/2);ctx.textAlign='center';ctx.font='12px sans-serif';ctx.fillText('Absorptance / Reflectance (0–1)',0,0);ctx.restore();
+    ctx.fillStyle=txt;ctx.font='13px sans-serif';ctx.textAlign='center';for(let e=6;e<=21;e+=3)ctx.fillText('10'+sup(e),X(e),T+ph+20);ctx.font='15px sans-serif';ctx.fillText('Frequency (Hz, log scale)',L+pw/2,T+ph+46);
+    let run=null,prev=null;const segs=[];for(let i=0;i<=N;i++){const lf=x0+(x1-x0)*i/N,rf=lerp(m.r,lf),a=lerp(m.a,lf);let cls=rf>.55?'R':a>.5?'A':'T';if(cls!==prev){if(run)segs.push(run);run={cls,s:lf,e:lf};prev=cls;}else run.e=lf;}if(run)segs.push(run);
+    ctx.textAlign='center';ctx.font='600 30px sans-serif';segs.forEach(s=>{if(X(s.e)-X(s.s)<30)return;ctx.fillStyle=s.cls==='R'?'#A32D2D':s.cls==='A'?'rgba(70,70,70,.85)':'#185FA5';ctx.fillText(s.cls,(X(s.s)+X(s.e))/2,T+ph-14);});
+  }
+  const bc=document.getElementById('btns'),keys=Object.keys(M);
+  const thBtn=document.createElement('button');thBtn.textContent='Body thermal emission';thBtn.style.fontSize='14px';thBtn.style.padding='7px 13px';thBtn.onclick=()=>{thermalOn=!thermalOn;render();};bc.appendChild(thBtn);
+  keys.forEach(k=>{const b=document.createElement('button');b.textContent=M[k].name;b.style.fontSize='14px';b.style.padding='7px 13px';b.dataset.k=k;b.onclick=()=>{const i=selected.indexOf(k);if(i>=0)selected.splice(i,1);else selected.push(k);render();};bc.appendChild(b);});
+  function render(){
+    thBtn.style.background=thermalOn?'#F2B8B0':'#FBE6E2';thBtn.style.borderColor=thermalOn?'#C0392B':'#E8A89F';thBtn.style.color=thermalOn?'#7a221a':'#a4554c';thBtn.style.fontWeight=thermalOn?'600':'500';
+    [...bc.children].forEach(b=>{if(b===thBtn)return;const on=selected.indexOf(b.dataset.k)>=0;b.style.background=on?'var(--color-background-secondary)':'';b.style.borderColor=on?'var(--color-border-primary)':'';b.style.fontWeight=on?'600':'400';});
+    const cont=document.getElementById('plots');cont.innerHTML='';
+    if(selected.length===0){cont.innerHTML='<p style="font-size:15px;color:var(--color-text-secondary);padding:20px 0;">Select one or more materials above to display their spectra.</p>';return;}
+    selected.forEach(key=>{
+      const block=document.createElement('div');block.style.margin='0 0 28px';
+      const h=document.createElement('div');h.textContent=M[key].name;h.style.cssText='font-size:15px;font-weight:600;color:var(--color-text-primary);margin:0 0 4px;';
+      const wrap=document.createElement('div');wrap.style.cssText='position:relative;width:100%;height:320px;';
+      const cv=document.createElement('canvas');wrap.appendChild(cv);
+      const note=document.createElement('p');note.innerHTML=M[key].note;note.style.cssText='font-size:14px;color:var(--color-text-secondary);margin:8px 0 0;line-height:1.55;';
+      block.appendChild(h);block.appendChild(wrap);block.appendChild(note);cont.appendChild(block);
+      drawPlot(cv,key);
+    });
+  }
+  render();let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(render,120);});
+})();
+</script>

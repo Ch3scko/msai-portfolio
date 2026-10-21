@@ -80,9 +80,9 @@
         <article class="card">
           <img src="customer-sentiment-intelligence.jpg" alt="Customer Sentiment Intelligence">
           <h3>Customer Sentiment Intelligence</h3>
-          <p>I built a Python and PyTorch pipeline to classify IMDb movie reviews as positive or negative. It cleans text, builds a vocabulary from training reviews, and feeds averaged word embeddings into a neural network. Training uses 5,000 reviews from the Hugging Face IMDb training split; evaluation uses 1,000 reviews from its separate test split, both sampled with seed 42.</p>
-          <p><strong>Held-out results:</strong> 79% accuracy and 77.56% F1. For context, always predicting negative would achieve 51.2% accuracy on this test subset (512 of 1,000 reviews). A TF-IDF and logistic regression comparison is not documented.</p>
-          <p><strong>Limits:</strong> Inputs are limited to 200 tokens and averaging embeddings discards word order. The notebook lists validation data, early stopping, and architecture comparisons as future improvements.</p>
+          <p>I built a Python and PyTorch pipeline to classify IMDb movie reviews as positive or negative. Evaluation uses reviews from the separate IMDb test split.</p>
+          <p><strong>Held-out results:</strong> 79% accuracy and 77.56% F1. For context, always predicting negative would achieve 51.2% accuracy on this test subset. A TF-IDF and logistic regression comparison is not documented.</p>
+          <p><strong>Limits:</strong> The notebook lists validation data, early stopping, and architecture comparisons as future improvements.</p>
           <p><a href="https://github.com/catherineollermann-dot/customer-sentiment-intelligence" target="_blank" rel="noopener">View sentiment code and evaluation</a></p>
         </article>
 

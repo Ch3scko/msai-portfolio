@@ -8,7 +8,7 @@
 - Pass 2 reordered the main content before the sidebar at widths up to 860px. The browser block still prevents visual verification, so this pass produced no newly verified passing rubric item.
 - Stopped after two passes under the no-progress rule. Items 1 and 4 still fail because their required browser checks remain incomplete; items 2, 3, 5, and 6 pass.
 - Git works when run as Catherine's Windows user. The earlier repository-detection problem was an environment limitation, not proof that Git metadata was missing.
-- Preparing one pull request from this branch to the class repository's main branch. The earlier review below describes the state before this rubric run.
+- Pull request: https://github.com/rodolfocapdevilla-au/msai-portfolio/pull/97, from this fork branch to the class repository's main branch. The earlier review below describes the state before this rubric run.
 
 ## Earlier review
 

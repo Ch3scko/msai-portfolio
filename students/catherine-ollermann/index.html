@@ -16,6 +16,11 @@
     object-fit: contain;
     object-position: center;
   }
+  @media (max-width: 860px) {
+    .cols > main {
+      order: -1;
+    }
+  }
 </style>
 </head>
 <body>
@@ -48,26 +53,37 @@
       <h1>Catherine Ollermann</h1>
       <p class="quote">
         I'm a Petroleum Engineer exploring how AI can solve real-world challenges.
+        I build Python tools to compare energy trends and evaluate machine learning models.
       </p>
+      <p class="lede">I'm pursuing an M.S. in Artificial Intelligence at Atlantis University and building practical projects with Python, from energy data pipelines and interactive applications to sentiment classification. I want to apply my engineering background to understanding energy trends and the limits of predictive models. My goal is to contribute as a junior machine learning engineer.</p>
       <h2 id="projects">Current Projects</h2>
       <div class="cards">
 
         <article class="card">
           <img src="energy-intelligence-platform.jpg" alt="Energy Intelligence Platform">
           <h3>Energy Intelligence Platform</h3>
-          <p>This application analyzes energy data and shows trends in charts. I built it with Python and Streamlit, including experimental projections of trends over five years. The result is a working Streamlit application for exploring energy trends.</p>
+          <p>How do historical energy trends differ between U.S. states? I built a Python and Streamlit application with Pandas and Plotly to compare states, filter energy indicators and years, and explore a U.S. map. The app loads a bundled demonstration dataset, <code>energy_sample.csv</code>, and accepts compatible CSV uploads.</p>
+          <p><strong>Model decision:</strong> Five-year projections use linear regression on year. The project documentation reports that Random Forest performance deteriorated with temporal validation, so I present the output as an experimental trend projection rather than a validated forecast.</p>
+          <p><a href="https://energy-intelligence-platform-project.streamlit.app/" target="_blank" rel="noopener">Try the Energy Intelligence Platform</a></p>
+          <p><a href="https://github.com/catherineollermann-dot/energy-intelligence-platform" target="_blank" rel="noopener">View energy app code and documentation</a></p>
+          <p>The demo may sleep after inactivity. If prompted, choose “Yes, get this app back up!” and allow time for it to load.</p>
         </article>
 
         <article class="card">
           <img src="aws-energy-pipeline.jpg" alt="Cloud-Based Energy Analytics Pipeline on AWS">
           <h3>Cloud-Based Energy Analytics Pipeline on AWS</h3>
-          <p>This project uses cloud tools to process energy data for analysis. I built it with Python and AWS, using Amazon S3, Apache Spark, and DynamoDB, and included data processing and machine learning components. The result demonstrates a complete cloud data pipeline for energy analytics.</p>
+          <p>I built a Python and AWS pipeline for historical U.S. energy consumption data from the Energy Information Administration's State Energy Data System (SEDS). It moves data through Amazon S3, PySpark cleaning and aggregation, and DynamoDB storage, with Plotly visualizations for state-level exploration.</p>
+          <p><strong>Technical detail:</strong> DynamoDB records use state and year as their keys. The project compares linear regression, decision tree, and Random Forest models for Alaska's energy consumption using Spark MLlib. The README reports the lowest RMSE for Random Forest; that comparison alone does not establish future forecasting reliability.</p>
+          <p><a href="https://github.com/catherineollermann-dot/Cloud-Based-Energy-Analytics-Pipeline-on-AWS" target="_blank" rel="noopener">View AWS pipeline code and results</a></p>
         </article>
 
         <article class="card">
           <img src="customer-sentiment-intelligence.jpg" alt="Customer Sentiment Intelligence">
           <h3>Customer Sentiment Intelligence</h3>
-          <p>This project uses machine learning to classify IMDb movie reviews as positive or negative. I used Python and PyTorch to prepare the review data, train the model, and evaluate its predictions. The model achieved 79% accuracy.</p>
+          <p>I built a Python and PyTorch pipeline to classify IMDb movie reviews as positive or negative. It cleans text, builds a vocabulary from training reviews, and feeds averaged word embeddings into a neural network. Training uses 5,000 reviews from the Hugging Face IMDb training split; evaluation uses 1,000 reviews from its separate test split, both sampled with seed 42.</p>
+          <p><strong>Held-out results:</strong> 79% accuracy and 77.56% F1. For context, always predicting negative would achieve 51.2% accuracy on this test subset (512 of 1,000 reviews). A TF-IDF and logistic regression comparison is not documented.</p>
+          <p><strong>Limits:</strong> Inputs are limited to 200 tokens and averaging embeddings discards word order. The notebook lists validation data, early stopping, and architecture comparisons as future improvements.</p>
+          <p><a href="https://github.com/catherineollermann-dot/customer-sentiment-intelligence" target="_blank" rel="noopener">View sentiment code and evaluation</a></p>
         </article>
 
       </div>

@@ -40,3 +40,12 @@ Only Catherine's student folder was changed. No commit, push, or pull request wa
 - The available msai-portfolio folder was not recognized as a Git repository by the earlier read-only diff check. Do not claim a clean Git diff or upload readiness without verifying repository state.
 - Additional model experiments belong to the project repositories and are outside the authorized portfolio-folder scope.
 - No other student's folder or RUBRIC.md was read or changed during this continuation.
+
+## Ledger-first run — 2026-10-21
+
+- PR #97 was merged before this run. New branch: student/catherine-ollermann-ledger-20261021.
+- Created the required numbered root LEDGER.md first, then synchronized the student-folder ledger to it. All three original comments are word for word: two Fixed, one Declined for the conflict with the author's later instruction to retain deeper implementation detail in the repository. No comments are open. A decline is not credited as an improvement pass.
+- Corrected the ledger's stale sentiment quotations while preserving the approved portfolio HTML unchanged. See REVIEW-2026-10-21.md for the ledger-first description, full check scores, scope, and evidence.
+- Verified current local HTML matches upstream main. Browser review of the deployed page at 1280×720 confirmed name and meaningful role above the fold; all four displayed images loaded.
+- Stopped after one pass because all comments are answered and five of six checks pass. Check 4 remains failed/unverified: no complete confirmed-private-window link test was performed. Checks 1, 2, 3, 5, and 6 pass.
+- New PR: https://github.com/rodolfocapdevilla-au/msai-portfolio/pull/101, with the ledger at the start of its description; no page content, protected root instructions, shared files, or other students' folders changed.
